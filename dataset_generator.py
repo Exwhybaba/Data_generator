@@ -37,46 +37,4 @@ def get_bounds_and_categories(var_info):
             categories_info[var_name] = categories
         elif var_type.lower() == 'date':
             start_date = st.date_input(f"Start Date for {var_name}", key=f"start_date_{i}_{np.random.randint(100)}", 
-                                       min_value=pd.to_datetime('1960-01-01'), max_value=pd.to_datetime('2024-12-31'),
-                                       value=pd.to_datetime('1960-01-01'))
-            end_date = st.date_input(f"End Date for {var_name}", key=f"end_date_{i}_{np.random.randint(100)}",
-                                     min_value=pd.to_datetime('2024-01-01'), max_value=pd.to_datetime('2030-12-31'),
-                                     value=pd.to_datetime('2024-01-01'))
-            bounds_info[var_name] = (start_date, end_date)
-    return bounds_info, categories_info
-
-def datasetGenerator(sampleNo, var_info, bounds_info={}, categories_info={}):
-    df_dict = {}
-
-    for var_name, var_type in var_info:
-        if var_type.lower() == 'integer':
-            lower, upper = bounds_info.get(var_name, (0, 100))
-            df_dict[var_name] = np.random.randint(lower, upper+1, size=sampleNo)
-        elif var_type.lower() == 'float':
-            lower, upper = bounds_info.get(var_name, (0.0, 100.0))
-            df_dict[var_name] = np.random.uniform(lower, upper, size=sampleNo)
-        elif var_type.lower() == 'integer_2':
-            mean, std = bounds_info.get(var_name, (0, 1))
-            df_dict[var_name] = np.random.normal(mean, std, size=sampleNo).astype(int)
-        elif var_type.lower() == 'float_2':
-            mean, std = bounds_info.get(var_name, (0.0, 1.0))
-            df_dict[var_name] = np.random.normal(mean, std, size=sampleNo)
-        elif var_type.lower() == 'categorical':
-            categories = categories_info.get(var_name, ['cat1', 'cat2'])
-            df_dict[var_name] = np.random.choice(categories, size=sampleNo)
-        elif var_type.lower() == 'date':
-            start_date, end_date = bounds_info.get(var_name, (pd.to_datetime('1960-01-01'), pd.to_datetime('2022-12-31')))
-            df_dict[var_name] = np.random.choice(pd.date_range(start=start_date, end=end_date, freq='D'), size=sampleNo)
-
-    df = pd.DataFrame(df_dict)
-    return df
-
-# Display the generated dataset
-st.dataframe(df)
-
-# Add a button to download the dataset as a CSV file
-if st.button("Download CSV"):
-    csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()  # Encode CSV data to base64
-    href = f'<a href="data:file/csv;base64,{b64}" download="generated_dataset.csv">Download CSV File</a>'
-    st.markdown(href, unsafe_allow_html=True)
+                                       min_value=pd.to
