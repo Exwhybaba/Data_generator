@@ -71,13 +71,6 @@ def datasetGenerator(sampleNo, var_info, bounds_info={}, categories_info={}):
     df = pd.DataFrame(df_dict)
     return df
 
-# Testing the code
-num_variables = st.number_input("Number of Variables", min_value=1, max_value=10, value=3)
-var_info = get_variable_info(num_variables)
-bounds_info, categories_info = get_bounds_and_categories(var_info)
-sampleNo = 100  # You can change this to the desired sample size
-df = datasetGenerator(sampleNo, var_info, bounds_info, categories_info)
-
 # Display the generated dataset
 st.dataframe(df)
 
