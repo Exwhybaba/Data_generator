@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import base64
+from scipy.stats import norm
 
 def get_variable_info(num_variables):
     var_info = []
@@ -57,10 +58,10 @@ def datasetGenerator(sampleNo, var_info, bounds_info={}, categories_info={}):
             df_dict[var_name] = np.random.uniform(lower, upper, size=sampleNo)
         elif var_type.lower() == 'integer_2':
             mean, std = bounds_info.get(var_name, (0, 1))
-            df_dict[var_name] = np.random.normal(mean, std, size=sampleNo).astype(int)
+            df_dict[var_name] = norm.rvs(mean, std, size=sampleNo).astype(int)
         elif var_type.lower() == 'float_2':
             mean, std = bounds_info.get(var_name, (0.0, 1.0))
-            df_dict[var_name] = np.random.normal(mean, std, size=sampleNo)
+            df_dict[var_name] = norm.rvs(mean, std, size=sampleNo)
         elif var_type.lower() == 'categorical':
             categories = categories_info.get(var_name, ['cat1', 'cat2'])
             df_dict[var_name] = np.random.choice(categories, size=sampleNo)
