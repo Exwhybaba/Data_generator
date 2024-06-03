@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import base64
+from scipy.stats import truncnorm
 
 def get_variable_info(num_variables):
     var_info = []
@@ -48,6 +49,9 @@ def get_bounds_and_categories(var_info):
 def datasetGenerator(sampleNo, var_info, bounds_info={}, categories_info={}):
     df_dict = {}
 
+    def get_truncated_normal(mean=0, sd=1, low=0, upp=np.inf):
+        return truncnorm((low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
+
     for var_name, var_type in var_info:
         if var_type.lower() == 'integer':
             lower, upper = bounds_info.get(var_name, (0, 100))
@@ -57,10 +61,12 @@ def datasetGenerator(sampleNo, var_info, bounds_info={}, categories_info={}):
             df_dict[var_name] = np.random.uniform(lower, upper, size=sampleNo)
         elif var_type.lower() == 'integer_2':
             mean, std = bounds_info.get(var_name, (0, 1))
-            df_dict[var_name] = np.random.normal(mean, std, size=sampleNo).astype(int)
+            trunc_norm = get_truncated_normal(mean, std, 0)
+            df_dict[var_name] = trunc_norm.rvs(sampleNo).astype(int)
         elif var_type.lower() == 'float_2':
             mean, std = bounds_info.get(var_name, (0.0, 1.0))
-            df_dict[var_name] = np.random.normal(mean, std, size=sampleNo)
+            trunc_norm = get_truncated_normal(mean, std, 0)
+            df_dict[var_name] = trunc_norm.rvs(sampleNo)
         elif var_type.lower() == 'categorical':
             categories = categories_info.get(var_name, ['cat1', 'cat2'])
             df_dict[var_name] = np.random.choice(categories, size=sampleNo)
