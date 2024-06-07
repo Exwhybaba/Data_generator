@@ -7,7 +7,11 @@ from dataInfo import explain_data_types
 # Main app
 def main(debug=True):
     st.title("Dataset Generator")
-
+    
+    # Sidebar for description menu
+    st.sidebar.title("Data Information")
+    explain_data_types() 
+    
     # Get number of samples
     sampleNo = st.number_input('Number of Samples', min_value=1, step=1, value=100)
 
