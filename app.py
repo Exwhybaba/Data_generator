@@ -14,7 +14,7 @@ def main(debug=True):
     sampleNo = st.number_input('Number of Samples', min_value=1, step=1, value=100)
 
     # Get number of variables
-    num_variables = st.number_input('Number of Variables', min_value=1, step=1, value=0)
+    num_variables = st.number_input('Number of Variables', min_value=1, step=1, value=1)
 
     # Get variable information
     var_info = get_variable_info(num_variables)
