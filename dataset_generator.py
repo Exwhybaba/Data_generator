@@ -47,6 +47,7 @@ def get_bounds_and_categories(var_info):
     return bounds_info, categories_info
 
 def datasetGenerator(sampleNo, var_info, bounds_info={}, categories_info={}):
+    st.title("Dataset Generator")
     df_dict = {}
 
     for var_name, var_type in var_info:
