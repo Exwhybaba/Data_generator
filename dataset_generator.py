@@ -73,19 +73,4 @@ def datasetGenerator(sampleNo, var_info, bounds_info={}, categories_info={}):
     df = pd.DataFrame(df_dict)
     return df
 
-# Main app
-num_variables = st.number_input("Number of Variables", min_value=1, max_value=10, value=1)
-var_info = get_variable_info(num_variables)
-bounds_info, categories_info = get_bounds_and_categories(var_info)
-sampleNo = 100  # You can change this to the desired sample size
-df = datasetGenerator(sampleNo, var_info, bounds_info, categories_info)
 
-# Display the generated dataset
-st.dataframe(df)
-
-# Add a button to download the dataset as a CSV file
-if st.button("Download CSV"):
-    csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()  # Encode CSV data to base64
-    href = f'<a href="data:file/csv;base64,{b64}" download="generated_dataset.csv">Download CSV File</a>'
-    st.markdown(href, unsafe_allow_html=True)
