@@ -4,11 +4,9 @@ import base64
 from dataset_generator import get_variable_info, get_bounds_and_categories, datasetGenerator
 from dataInfo import explain_data_types
 
+# Main app
 def main(debug=True):
     st.title("Dataset Generator")
-
-    # Generate sidebar with data types explanation
-    explain_data_types()
 
     # Get number of samples
     sampleNo = st.number_input('Number of Samples', min_value=1, step=1, value=100)
@@ -26,6 +24,7 @@ def main(debug=True):
     if st.button("Generate Dataset"):
         df = datasetGenerator(sampleNo, var_info, bounds_info, categories_info)
         st.dataframe(df)
+
 
     # Add download button
     if 'df' in locals() and df is not None:
